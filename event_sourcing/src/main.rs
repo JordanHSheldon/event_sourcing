@@ -1,4 +1,5 @@
 use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::http::header::ContentType;
 mod dto;
 
 #[post("/read")]
@@ -13,7 +14,8 @@ async fn write(req_body: web::Json<dto::Event>) -> impl Responder {
         event_type: req_body.event_id.to_string(),
         event_time: req_body.event_time.to_string(),
     };
-    HttpResponse::Ok().body(state.event_type.to_string())
+    
+    HttpResponse::Ok().content_type("application/json").body(web::Json(state.event_id).to_string())
 }
 
 #[actix_web::main]
